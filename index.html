@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>태진다이텍 부서별 포털</title>
+  <style>
+    :root {
+      --primary-color: #2c3e50;
+      --accent-color: #3498db;
+      --active-bg: #2980b9;
+      --bg-color: #ecf0f1;
+      --card-bg: #ffffff;
+      --card-shadow: rgba(0, 0, 0, 0.1);
+      --radius: 12px;
+      --transition: 0.3s ease;
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: "Noto Sans KR", sans-serif;
+    }
+    body {
+      background: var(--bg-color);
+      color: var(--primary-color);
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+    }
+    header {
+      background: var(--primary-color);
+      color: #fff;
+      padding: 1rem 2rem;
+      text-align: center;
+      box-shadow: 0 2px 4px var(--card-shadow);
+    }
+    header h1 {
+      font-size: 1.5rem;
+      letter-spacing: 1px;
+    }
+    .main {
+      display: flex;
+      flex: 1;
+      overflow: hidden;
+    }
+    .sidebar {
+      width: 240px;
+      background: var(--card-bg);
+      padding: 1rem;
+      box-shadow: 2px 0 4px var(--card-shadow);
+    }
+    .sidebar .card {
+      display: block;
+      background: var(--bg-color);
+      padding: 1rem;
+      margin-bottom: 1rem;
+      border-radius: var(--radius);
+      text-decoration: none;
+      color: var(--primary-color);
+      box-shadow: 0 2px 4px var(--card-shadow);
+      transition: transform var(--transition), box-shadow var(--transition), background var(--transition), color var(--transition);
+    }
+    /* 활성화된 메뉴 스타일 */
+    .sidebar .card.active {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px var(--card-shadow);
+      background: var(--accent-color);
+      color: #fff;
+    }
+    .sidebar .card:hover:not(.active) {
+      transform: translateY(-4px);
+      box-shadow: 0 4px 8px var(--card-shadow);
+    }
+    .sidebar .card h2 {
+      font-size: 1.1rem;
+      text-align: center;
+    }
+    .content {
+      flex: 1;
+      position: relative;
+    }
+    .content img,
+    .content iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+    .content iframe {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>(주)태진다이텍 부서별 포털</h1>
+  </header>
+  <div class="main">
+    <nav class="sidebar">
+      <a href="https://knagbyeongju-123.github.io/General/" class="card"><h2>관리자</h2></a>
+      <a href="https://knagbyeongju-123.github.io/general_team/" class="card"><h2>영업관리팀</h2></a>
+      <a href="https://knagbyeongju-123.github.io/procuctteam_check_all/" class="card"><h2>생산팀</h2></a>
+      <a href="https://knagbyeongju-123.github.io/QC_Checksheet_all/" class="card"><h2>품질관리팀</h2></a>
+      <a href="development.html" class="card"><h2>개발팀</h2></a>
+      <a href="design.html" class="card"><h2>설계팀</h2></a>
+    </nav>
+    <section class="content">
+      <img id="main-image" src="main.jpg" alt="태진다이텍 메인 이미지" />
+      <iframe id="content-frame"></iframe>
+    </section>
+  </div>
+
+  <script>
+    const cards = document.querySelectorAll('.sidebar .card');
+    const img   = document.getElementById('main-image');
+    const ifr   = document.getElementById('content-frame');
+
+    cards.forEach(card => {
+      card.addEventListener('click', e => {
+        e.preventDefault();
+        // 메뉴 active 상태 토글
+        cards.forEach(c => c.classList.remove('active'));
+        card.classList.add('active');
+        
+        // 메인 이미지 숨기고 iframe 보이기
+        img.style.display = 'none';
+        ifr.src = card.href;
+        ifr.style.display = 'block';
+      });
+    });
+  </script>
+</body>
+</html>
