@@ -8,72 +8,99 @@
     :root {
       --primary-color: #2c3e50;
       --accent-color: #3498db;
-      --active-bg: #2980b9;
       --bg-color: #ecf0f1;
       --card-bg: #ffffff;
       --card-shadow: rgba(0, 0, 0, 0.1);
       --radius: 12px;
       --transition: 0.3s ease;
+      --header-height: 56px;
+      --menu-height: 48px;
     }
-    * { box-sizing: border-box; margin:0; padding:0; font-family:"Noto Sans KR",sans-serif; }
-    body { background:var(--bg-color); color:var(--primary-color); display:flex; flex-direction:column; min-height:100vh; }
-    header { background:var(--primary-color); color:#fff; padding:1rem; text-align:center; box-shadow:0 2px 4px var(--card-shadow); }
-    header h1 { font-size:1.5rem; }
-
-    /* 모바일 먼저 접근성: 메뉴는 상단 스크롤 nav로 변경 */
-    .sidebar {
-      display:flex;
-      overflow-x:auto;
-      background:var(--card-bg);
-      padding:0.5rem;
-      box-shadow:0 2px 4px var(--card-shadow);
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
     }
-    .sidebar .card {
-      flex:0 0 auto;
-      margin-right:0.5rem;
-      padding:0.75rem 1rem;
-      border-radius:var(--radius);
-      text-decoration:none;
-      color:var(--primary-color);
-      background:var(--card-bg);
-      box-shadow:0 2px 4px var(--card-shadow);
-      transition: transform var(--transition), background var(--transition), color var(--transition);
+    body {
+      display: flex;
+      flex-direction: column;
+      background: var(--bg-color);
+      color: var(--primary-color);
+      font-family: "Noto Sans KR", sans-serif;
     }
-    .sidebar .card:last-child { margin-right:0; }
-    .sidebar .card h2 { font-size:1rem; }
-    .sidebar .card.active {
-      background:var(--accent-color);
-      color:#fff;
+    header {
+      height: var(--header-height);
+      background: var(--primary-color);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 4px var(--card-shadow);
+    }
+    header h1 {
+      font-size: 1.2rem;
+      margin: 0;
+    }
+    nav.sidebar {
+      height: var(--menu-height);
+      background: var(--card-bg);
+      display: flex;
+      overflow-x: auto;
+      box-shadow: 0 2px 4px var(--card-shadow);
+    }
+    nav.sidebar::-webkit-scrollbar {
+      height: 6px;
+    }
+    nav.sidebar::-webkit-scrollbar-thumb {
+      background: var(--card-shadow);
+      border-radius: 3px;
+    }
+    nav.sidebar .card {
+      flex: 0 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 1rem;
+      margin: 0.5rem;
+      border-radius: var(--radius);
+      text-decoration: none;
+      color: var(--primary-color);
+      background: var(--card-bg);
+      box-shadow: 0 2px 4px var(--card-shadow);
+      transition: background var(--transition), color var(--transition), transform var(--transition);
+    }
+    nav.sidebar .card h2 {
+      font-size: 1rem;
+      margin: 0;
+    }
+    nav.sidebar .card.active,
+    nav.sidebar .card:hover {
+      background: var(--accent-color);
+      color: #fff;
       transform: translateY(-2px);
     }
-    .sidebar .card:hover:not(.active) {
-      transform: translateY(-2px);
-      box-shadow:0 4px 8px var(--card-shadow);
-    }
-
     .content {
-      flex:1;
-      position:relative;
-      overflow:hidden;
+      flex: 1;
+      position: relative;
     }
-    .content img, .content iframe {
-      width:100%; height:auto;
-      max-height:calc(100vh - 60px - 56px); /* header + menu height */
-      display:block;
-      margin:0 auto;
+    .content img,
+    .content iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
     }
-    .content iframe { display:none; }
-
-    /* 태블릿/데스크탑 레이아웃 */
-    @media(min-width:600px) {
-      body { flex-direction:column; }
-      .sidebar { justify-content:center; }
-      .content img, .content iframe { max-height:none; height: calc(100vh - 56px - 56px); }
+    .content iframe {
+      display: none;
     }
   </style>
 </head>
 <body>
-  <header><h1>(주)태진다이텍 부서별 포털</h1></header>
+  <header>
+    <h1>(주)태진다이텍 부서별 포털</h1>
+  </header>
   <nav class="sidebar">
     <a href="https://knagbyeongju-123.github.io/General/" class="card"><h2>관리자</h2></a>
     <a href="https://knagbyeongju-123.github.io/general_team/" class="card"><h2>영업관리팀</h2></a>
@@ -83,14 +110,13 @@
     <a href="design.html" class="card"><h2>설계팀</h2></a>
   </nav>
   <section class="content">
-    <img id="main-image" src="main.JPG" alt="태진다이텍 메인 이미지" />
+    <img id="main-image" src="main.jpg" alt="태진다이텍 메인 이미지" />
     <iframe id="content-frame"></iframe>
   </section>
-
   <script>
-    const cards = document.querySelectorAll('.sidebar .card');
-    const img   = document.getElementById('main-image');
-    const ifr   = document.getElementById('content-frame');
+    const cards = document.querySelectorAll('nav.sidebar .card');
+    const img = document.getElementById('main-image');
+    const ifr = document.getElementById('content-frame');
 
     cards.forEach(card => {
       card.addEventListener('click', e => {
