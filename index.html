@@ -3,153 +3,111 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>(주)태진다이텍 포털 (Bright Top Nav + Hero Animation)</title>
+  <title>(주)태진다이텍 포털 - 하늘빛 동적 히어로</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
   <style>
     :root {
-      --bg-main: #f5f7fa;
-      --nav-bg: #ffffff;
-      --accent: #3498db;
-      --text-dark: #333333;
+      --nav-h: 56px;
+      --accent: #4a90e2; /* 하늘색 포인트 */
       --text-light: #ffffff;
+      --text-dark: #333333;
+      --nav-bg: #ffffff;
       --shadow: rgba(0,0,0,0.1);
       --transition: 0.3s;
-      --nav-h: 56px;
-      --radius: 8px;
     }
     * { box-sizing: border-box; margin:0; padding:0; }
     body {
-      display: flex;
-      flex-direction: column;
-      height: 100vh;
-      overflow: hidden;
-      background: var(--bg-main);
+      display: flex; flex-direction: column;
+      height: 100vh; overflow: hidden;
+      background: #ddeeff; /* 연한 하늘색 배경 */
       font-family: 'Noto Sans KR',sans-serif;
       color: var(--text-dark);
     }
     header {
       height: var(--nav-h);
       background: var(--accent);
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      display: flex; align-items: center; justify-content: center;
       box-shadow: 0 2px 4px var(--shadow);
-      font-size: 1.2rem;
-      font-weight: 700;
       color: var(--text-light);
+      font-size: 1.3rem; font-weight: 700;
+      position: relative;
+      z-index: 2;
     }
     nav.topnav {
       height: var(--nav-h);
       background: var(--nav-bg);
-      display: flex;
-      align-items: center;
-      overflow-x: auto;
-      white-space: nowrap;
+      display: flex; align-items: center;
+      overflow-x: auto; white-space: nowrap;
       box-shadow: 0 2px 4px var(--shadow);
-    }
-    nav.topnav::-webkit-scrollbar { height:6px; }
-    nav.topnav::-webkit-scrollbar-thumb {
-      background: var(--shadow);
-      border-radius:3px;
+      z-index: 2;
     }
     nav.topnav a {
-      display: inline-flex;
-      align-items: center;
-      padding: 0 .75rem;
-      margin: 0 .25rem;
-      color: var(--text-dark);
-      text-decoration: none;
-      border-radius: var(--radius);
-      transition: background var(--transition), transform var(--transition);
+      display: inline-flex; align-items: center;
+      padding: 0 .75rem; margin: 0 .25rem;
+      color: var(--text-dark); text-decoration: none;
+      border-radius: 8px; transition: background var(--transition), transform var(--transition);
       font-weight: 500;
     }
-    nav.topnav a i {
-      margin-right: 6px;
-      color: var(--accent);
-    }
-    nav.topnav a:hover {
-      background: rgba(52, 152, 219, 0.1);
-      transform: translateY(-2px);
-    }
-    nav.topnav a.active {
-      background: var(--accent);
-      color: var(--text-light);
-      font-weight: 700;
-    }
+    nav.topnav a i { margin-right: 6px; color: var(--accent); }
+    nav.topnav a:hover { background: rgba(74,144,226,0.1); transform: translateY(-2px); }
+    nav.topnav a.active { background: var(--accent); color: var(--text-light); font-weight:700; }
     #main {
-      flex:1;
-      position:relative;
-      background:#ffffff;
-      overflow:hidden;
+      flex:1; position:relative; overflow:hidden;
+      animation: skyBG 5s ease-in-out infinite alternate;
+      display: flex; align-items: center; justify-content: center;
     }
-    .loader {
-      position:absolute;
-      z-index:2;
-      width:48px; height:48px;
-      border:6px solid var(--accent);
-      border-top-color: var(--text-dark);
-      border-radius:50%;
-      animation:spin 1s linear infinite;
-      top:calc(50% - 24px);
-      left:calc(50% - 24px);
+    @keyframes skyBG {
+      0% { background: #ffffff; }
+      50% { background: #bbe8ff; }
+      100% { background: #ffffff; }
+    }
+    .hero {
+      position:absolute; top:0; left:0; width:100%; height:100%;
+      display:flex; align-items:center; justify-content:center;
+      overflow:hidden; z-index:1;
+    }
+    .hero span {
+      position:absolute; font-size:3rem; font-weight:700;
+      color: var(--accent);
+      white-space: nowrap;
+      opacity: 0;
+      animation: slideFade 12s ease-in-out infinite;
+    }
+    .hero span:nth-child(1) { animation-delay: 0s; }
+    .hero span:nth-child(2) { animation-delay: 4s; }
+    .hero span:nth-child(3) { animation-delay: 8s; }
+    @keyframes slideFade {
+      0%   { opacity: 0; transform: translateX(-100%) scale(0.8); }
+      10%  { opacity: 1; transform: translateX(0) scale(1); }
+      30%  { opacity: 1; transform: translateX(0) scale(1); }
+      40%  { opacity: 0; transform: translateX(100%) scale(0.8); }
+      100% { opacity: 0; }
+    }
+    .loader { position:absolute; z-index:2; width:48px; height:48px;
+      border:6px solid var(--accent); border-top-color: var(--text-dark);
+      border-radius:50%; animation:spin 1s linear infinite;
+      top:50%; left:50%; transform:translate(-50%,-50%);
       display:none;
     }
     @keyframes spin { to { transform:rotate(360deg); } }
-    .hero {
-      position:absolute;
-      top:0; left:0;
-      width:100%; height:100%;
-      background: linear-gradient(135deg, #e0f7fa, #fff);
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      overflow:hidden;
-    }
-    .hero span {
-      position:absolute;
-      font-size:2.5rem;
-      font-weight:700;
-      color: var(--accent);
-      opacity:0;
-      animation:fade 9s infinite;
-    }
-    .hero span:nth-child(1) { animation-delay:0s; }
-    .hero span:nth-child(2) { animation-delay:3s; }
-    .hero span:nth-child(3) { animation-delay:6s; }
-    @keyframes fade {
-      0%   { opacity:0; transform: translateY(20px) scale(0.8); }
-      10%  { opacity:1; transform: translateY(0) scale(1); }
-      30%  { opacity:1; transform: translateY(0) scale(1); }
-      40%  { opacity:0; transform: translateY(-20px) scale(0.8); }
-      100% { opacity:0; }
-    }
     #main iframe {
-      position:absolute;
-      top:0; left:0;
-      width:100%; height:100%;
-      border:none;
-      opacity:0;
-      transition:opacity var(--transition);
+      position:absolute; top:0; left:0; width:100%; height:100%; border:none;
+      opacity:0; transition: opacity var(--transition);
+      z-index:2;
     }
-    #main iframe.visible {
-      opacity:1;
-    }
+    #main iframe.visible { opacity:1; }
     footer {
-      height:32px;
-      background: var(--nav-bg);
-      text-align:center;
-      line-height:32px;
-      font-size:0.8rem;
-      flex-shrink:0;
-      box-shadow: 0 -2px 4px var(--shadow);
-      color: var(--text-dark);
+      height:32px; background: var(--nav-bg);
+      text-align:center; line-height:32px; font-size:0.8rem;
+      box-shadow: 0 -2px 4px var(--shadow); color: var(--text-dark);
+      z-index:2;
     }
   </style>
 </head>
 <body>
-
-  <header>(주)태진다이텍 전자업무 포털</header>
-
+  <header>
+    (주)태진다이텍 전자업무 포털
+  </header>
   <nav class="topnav">
     <a href="https://knagbyeongju-123.github.io/procuctteam_check_all/">
       <i class="fas fa-cogs"></i><span>생산</span>
@@ -167,22 +125,19 @@
       <i class="fas fa-info-circle"></i><span>개요 & 팁</span>
     </a>
   </nav>
-
   <div id="main">
-    <div class="loader" id="loader"></div>
-    <div class="hero" id="hero">
+    <div class="hero">
       <span>과거는 반성을</span>
       <span>현재는 최선을</span>
       <span>미래는 보람을</span>
     </div>
+    <div class="loader" id="loader"></div>
     <iframe id="content-frame"></iframe>
   </div>
-
   <footer>&copy; 2025 태진다이텍 스마트 포털</footer>
-
   <script>
     const links = document.querySelectorAll('nav.topnav a');
-    const hero = document.getElementById('hero');
+    const hero = document.querySelector('.hero');
     const loader = document.getElementById('loader');
     const iframe = document.getElementById('content-frame');
 
@@ -195,23 +150,19 @@
       loader.style.display = 'none';
       iframe.classList.add('visible');
     }
-
-    links.forEach(link=>{
-      link.addEventListener('click', e=>{
+    links.forEach(link => {
+      link.addEventListener('click', e => {
         e.preventDefault();
-        links.forEach(l=>l.classList.remove('active'));
+        links.forEach(l => l.classList.remove('active'));
         link.classList.add('active');
         showLoader();
         iframe.src = link.href;
         iframe.onload = hideLoader;
       });
     });
-
-    window.addEventListener('load', ()=>{
-      // 초기에는 hero 보여주고 nav는 비활성 상태
+    window.addEventListener('load', () => {
       hero.style.display = 'flex';
     });
   </script>
-
 </body>
 </html>
