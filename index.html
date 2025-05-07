@@ -1,135 +1,166 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>(주)태진다이텍 부서별 포털</title>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>(주)태진다이텍 포털 (Mobile Top Nav)</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
   <style>
     :root {
-      --primary-color: #2c3e50;
-      --accent-color: #3498db;
-      --bg-color: #ecf0f1;
-      --card-bg: #ffffff;
-      --card-shadow: rgba(0, 0, 0, 0.1);
-      --radius: 12px;
-      --transition: 0.3s ease;
-      --header-height: 56px;
-      --menu-height: 48px;
+      --dark-bg: #1e1e2f;
+      --dark-nav: #2a2a3e;
+      --accent: #ff8c00;
+      --text-light: #f0f0f5;
+      --transition: 0.3s;
+      --nav-h: 56px;
+      --radius: 8px;
+      --shadow: rgba(0,0,0,0.3);
     }
-    html, body {
-      height: 100%;
-      margin: 0;
-      padding: 0;
-    }
+    * { box-sizing: border-box; margin:0; padding:0; }
     body {
-      display: flex;
-      flex-direction: column;
-      background: var(--bg-color);
-      color: var(--primary-color);
-      font-family: "Noto Sans KR", sans-serif;
+      display: flex; flex-direction: column;
+      height: 100vh; overflow: hidden;
+      background: var(--dark-bg);
+      font-family: 'Noto Sans KR',sans-serif;
+      color: var(--text-light);
     }
     header {
-      height: var(--header-height);
-      background: var(--primary-color);
-      color: #fff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 2px 4px var(--card-shadow);
+      height: var(--nav-h);
+      background: var(--dark-nav);
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 2px 4px var(--shadow);
+      font-size: 1.2rem; font-weight: 700;
     }
-    header h1 {
-      font-size: 1.2rem;
-      margin: 0;
+    nav.topnav {
+      height: var(--nav-h);
+      background: var(--dark-nav);
+      display: flex; align-items: center;
+      overflow-x: auto; white-space: nowrap;
+      box-shadow: 0 2px 4px var(--shadow);
     }
-    nav.sidebar {
-      height: var(--menu-height);
-      background: var(--card-bg);
-      display: flex;
-      overflow-x: auto;
-      box-shadow: 0 2px 4px var(--card-shadow);
+    nav.topnav::-webkit-scrollbar { height:6px; }
+    nav.topnav::-webkit-scrollbar-thumb {
+      background: var(--shadow); border-radius:3px;
     }
-    nav.sidebar::-webkit-scrollbar {
-      height: 6px;
-    }
-    nav.sidebar::-webkit-scrollbar-thumb {
-      background: var(--card-shadow);
-      border-radius: 3px;
-    }
-    nav.sidebar .card {
-      flex: 0 0 auto;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 0 1rem;
-      margin: 0.5rem;
-      border-radius: var(--radius);
+    nav.topnav a {
+      display: inline-flex; align-items: center;
+      padding: 0 .75rem;
+      margin: 0 .25rem;
+      color: var(--text-light);
       text-decoration: none;
-      color: var(--primary-color);
-      background: var(--card-bg);
-      box-shadow: 0 2px 4px var(--card-shadow);
-      transition: background var(--transition), color var(--transition), transform var(--transition);
+      border-radius: var(--radius);
+      transition: background var(--transition), transform var(--transition);
     }
-    nav.sidebar .card h2 {
-      font-size: 1rem;
-      margin: 0;
+    nav.topnav a i {
+      margin-right: 6px;
     }
-    nav.sidebar .card.active,
-    nav.sidebar .card:hover {
-      background: var(--accent-color);
-      color: #fff;
+    nav.topnav a:hover {
+      background: rgba(255,140,0,0.2);
       transform: translateY(-2px);
     }
-    .content {
-      flex: 1;
-      position: relative;
+    nav.topnav a.active {
+      background: var(--accent);
+      color: var(--dark-nav);
+      font-weight: 700;
     }
-    .content img,
-    .content iframe {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      border: none;
+    #main {
+      flex:1; position:relative;
+      background:#111122;
+      display:flex; align-items:center; justify-content:center;
+      overflow:hidden;
     }
-    .content iframe {
-      display: none;
+    #main img, #main iframe {
+      position:absolute; top:0; left:0;
+      width:100%; height:100%;
+      border:none;
+      opacity:0; transition:opacity var(--transition);
+    }
+    #main img.visible, #main iframe.visible {
+      opacity:1;
+    }
+    .loader {
+      position:absolute; z-index:2;
+      width:48px; height:48px;
+      border:6px solid var(--text-light);
+      border-top-color: var(--accent);
+      border-radius:50%;
+      animation:spin 1s linear infinite;
+    }
+    @keyframes spin { to { transform:rotate(360deg); } }
+    footer {
+      height:32px;
+      background: var(--dark-nav);
+      text-align:center; line-height:32px;
+      font-size:0.8rem;
+      flex-shrink:0;
+      box-shadow: 0 -2px 4px var(--shadow);
     }
   </style>
 </head>
 <body>
-  <header>
-    <h1>(주)태진다이텍 전자업무 포털</h1>
-  </header>
-  <nav class="sidebar">
-    
-     <a href="https://knagbyeongju-123.github.io/procuctteam_check_all/" class="card"><h2>생산</h2></a>
-    <a href="https://knagbyeongju-123.github.io/QC_Checksheet_all/" class="card"><h2>품질</h2></a>
-     <a href="https://knagbyeongju-123.github.io/general_team/" class="card"><h2>영업</h2></a>
-    <a href="https://knagbyeongju-123.github.io/General/" class="card"><h2>소방</h2></a>
-    
-    <a href="https://knagbyeongju-123.github.io/Title_Index/" class="card"><h2>개요 및 사용팁</h2></a>
-    <a href="design.html" class="card"><h2></h2></a>
+
+  <header>(주)태진다이텍 전자업무 포털</header>
+
+  <nav class="topnav">
+    <a href="https://knagbyeongju-123.github.io/procuctteam_check_all/" class="active">
+      <i class="fas fa-cogs"></i><span>생산</span>
+    </a>
+    <a href="https://knagbyeongju-123.github.io/QC_Checksheet_all/">
+      <i class="fas fa-clipboard-check"></i><span>품질</span>
+    </a>
+    <a href="https://knagbyeongju-123.github.io/general_team/">
+      <i class="fas fa-chart-line"></i><span>영업</span>
+    </a>
+    <a href="https://knagbyeongju-123.github.io/General/">
+      <i class="fas fa-fire-extinguisher"></i><span>소방</span>
+    </a>
+    <a href="https://knagbyeongju-123.github.io/Title_Index/">
+      <i class="fas fa-info-circle"></i><span>개요 & 팁</span>
+    </a>
   </nav>
-  <section class="content">
-    <img id="main-image" src="main3.JPG" alt="태진다이텍 메인 이미지" />
+
+  <div id="main">
+    <div class="loader" id="loader"></div>
+    <img id="main-image" src="main3.JPG" alt="태진다이텍 메인 이미지" class="visible"/>
     <iframe id="content-frame"></iframe>
-  </section>
+  </div>
+
+  <footer>&copy; 2025 태진다이텍 스마트 포털</footer>
+
   <script>
-    const cards = document.querySelectorAll('nav.sidebar .card');
+    const links = document.querySelectorAll('nav.topnav a');
     const img = document.getElementById('main-image');
     const ifr = document.getElementById('content-frame');
+    const loader = document.getElementById('loader');
 
-    cards.forEach(card => {
-      card.addEventListener('click', e => {
+    function showLoader(){
+      loader.style.display='block';
+      img.classList.remove('visible');
+      ifr.classList.remove('visible');
+    }
+    function hideLoader(){
+      loader.style.display='none';
+    }
+
+    links.forEach(link=>{
+      link.addEventListener('click', e=>{
         e.preventDefault();
-        cards.forEach(c => c.classList.remove('active'));
-        card.classList.add('active');
-        img.style.display = 'none';
-        ifr.src = card.href;
-        ifr.style.display = 'block';
+        showLoader();
+        links.forEach(l=>l.classList.remove('active'));
+        link.classList.add('active');
+        ifr.src = link.href;
+        ifr.onload = ()=>{
+          hideLoader();
+          ifr.classList.add('visible');
+        };
       });
     });
+
+    window.addEventListener('load', ()=>{
+      hideLoader();
+      img.classList.add('visible');
+    });
   </script>
+
 </body>
 </html>
